@@ -15,7 +15,3 @@ The **Server** is develop in *NestJS*ñ. For more information read [README.md](.
 To contact with me:
 * Twitter: @jmorenovalde
 * LinkedIn: https://www.linkedin.com/in/juan-antonio-moreno-valderrama/
-
-, make an Issue in the [GitHub Repository](https://github.com/jmorenovalde/master-detail-real-time/issues).
-
-Twitter

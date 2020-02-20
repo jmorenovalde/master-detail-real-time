@@ -1,1 +1,9 @@
+<mat-toolbar>
+  {{ 'TITLE' | translate }}
+  <span class="toolbar-spacer"></span>
+  <img src="assets/images/bitcoin-brands.svg" width="20" alt="Bitcoin">:
+  {{ rate | currency : 'USD' }}
+  <span class="toolbar-spacer"></span>
+  Alerts
+</mat-toolbar>
 <jamv-account-list></jamv-account-list>

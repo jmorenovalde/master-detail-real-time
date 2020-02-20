@@ -7,7 +7,7 @@ import { TranslateService } from '@ngx-translate/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'Account Master-Detail';
+  public rate = 9603.67;
 
   constructor(translate: TranslateService) {
     translate.setDefaultLang('en');

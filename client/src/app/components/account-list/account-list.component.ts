@@ -1,27 +1,34 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
+import { Component, OnInit, OnDestroy, ViewChild, AfterViewInit } from '@angular/core';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+
 import { Account } from '../../models/account.model';
-
-
 
 @Component({
   selector: 'jamv-account-list',
   templateUrl: './account-list.component.html',
   styleUrls: ['./account-list.component.scss']
 })
-export class AccountListComponent implements OnInit, OnDestroy {
+export class AccountListComponent implements OnInit, OnDestroy, AfterViewInit {
 
+  public rate = 9603.67;
   public displayedColumns: string[] = [];
-  public dataSource: Account[] = [];
+  public dataSource = new MatTableDataSource(this.loadAccounts());
+
   private _unsubscribe$ = new Subject<boolean>();
+
+  @ViewChild(MatPaginator) paginator: MatPaginator;
 
   constructor() { }
 
   ngOnInit(): void {
     this.displayedColumns = this.loadHeaders();
     this.loadAccounts();
+  }
+
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
   }
 
   ngOnDestroy(): void {
@@ -40,8 +47,8 @@ export class AccountListComponent implements OnInit, OnDestroy {
   /**
    * Method to load the accounts (mock-data)
    */
-  private loadAccounts(): void {
-    this.dataSource = [
+  private loadAccounts(): Account[] {
+    return [
       {
         id: 1,
         name: 'Name 1',
@@ -164,5 +171,4 @@ export class AccountListComponent implements OnInit, OnDestroy {
       }
     ];
   }
-
 }

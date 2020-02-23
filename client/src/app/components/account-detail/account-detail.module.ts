@@ -7,10 +7,11 @@ import { MatTableModule } from '@angular/material/table';
 
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 
-import { AccountListComponent } from './account-list.component';
+import { AccountDetailComponent } from './account-detail.component';
 import { SharedPipesModule } from '../../shared/pipes/shared-pipes.module';
 import { HttpClient } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -18,10 +19,10 @@ export function HttpLoaderFactory(http: HttpClient) {
 
 @NgModule({
   declarations: [
-    AccountListComponent
+    AccountDetailComponent
   ],
   exports: [
-    AccountListComponent
+    AccountDetailComponent
   ],
   imports: [
     CommonModule,
@@ -39,4 +40,4 @@ export function HttpLoaderFactory(http: HttpClient) {
     })
   ]
 })
-export class AccountListModule { }
+export class AccountDetailModule { }

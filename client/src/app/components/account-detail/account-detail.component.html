@@ -1,0 +1,122 @@
+<div class="center">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>{{ 'ACCOUNT_DETAIL_TITLE' | translate }}</mat-card-title>
+      <mat-card-subtitle>
+        {{ 'HOME' | translate }} /
+        <a (click)="goToHome()">{{ 'ACCOUNTS' | translate }}</a> /
+        <strong>{{ 'ACCOUNT_DETAIL' | translate }}</strong>
+      </mat-card-subtitle>
+    </mat-card-header>
+  </mat-card>
+  <br>
+  <div *ngIf="!account; else accountData">
+    <mat-card>
+      <mat-card-content class="spinner">
+        <mat-spinner></mat-spinner>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <ng-template #accountData>
+    <mat-card>
+      <mat-card-content>
+        <div class="account-name">
+          {{ account?.name }}
+        </div>
+        <div class="account-category">
+          {{ account?.category }}
+        </div>
+        <div class="balance">
+          <div class="amount">
+            {{ account?.balance }} BTC ({{ account?.balance | convert: rate | currency: 'USD' }})
+          </div>
+          <div class="note">
+            ({{ 'ACCOUNT_NOTE' | translate: { bitcoin: 0, usd: 0 | currency: 'USD'} }})
+          </div>
+        </div>
+        <div class="aviable-balance">
+          {{ 'ACCOUNT_AVIABLE_BALANCE' | translate }}: {{ account?.aviableBalance }} BTC
+          ({{ account?.aviableBalance | convert: rate | currency: 'USD' }})
+        </div>
+      </mat-card-content>
+    </mat-card>
+    <br>
+    <mat-card>
+      <mat-card-content>
+        {{ 'ACCOUNT_STATEMENT' | translate }}
+
+        <ng-container *ngIf="account?.statements && account?.statements?.length > 0; else notResult">
+          <table mat-table 
+              [dataSource]="dataSource"
+              class="mat-elevation-z8">
+            <ng-container matColumnDef="date">
+              <th mat-header-cell *matHeaderCellDef>
+                {{ 'ACCOUNT_STATEMENT_DATE' | translate }}
+              </th>
+              <td mat-cell *matCellDef="let element">
+                {{ element.date | date: 'MM/dd/yyyy HH:mm' }}
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="orderId">
+              <th mat-header-cell *matHeaderCellDef>
+                {{ 'ACCOUNT_STATEMENT_ORDER_ID' | translate }}
+              </th>
+              <td mat-cell *matCellDef="let element">
+                {{ element.orderId }}
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="orderCode">
+              <th mat-header-cell *matHeaderCellDef>
+                {{ 'ACCOUNT_STATEMENT_ORDER_CODE' | translate }}
+              </th>
+              <td mat-cell *matCellDef="let element">
+                {{ element.orderCode }}
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="type">
+              <th mat-header-cell *matHeaderCellDef>
+                {{ 'ACCOUNT_STATEMENT_TRANSACTION_TYPE' | translate }}
+              </th>
+              <td mat-cell *matCellDef="let element">
+                {{ element.type | translate }}
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="debit">
+              <th mat-header-cell *matHeaderCellDef>
+                {{ 'ACCOUNT_STATEMENT_DEBIT' | translate }}
+              </th>
+              <td mat-cell *matCellDef="let element">
+                &nbsp;
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="credit">
+              <th mat-header-cell *matHeaderCellDef>
+                {{ 'ACCOUNT_STATEMENT_CREDIT' | translate }}
+              </th>
+              <td mat-cell *matCellDef="let element">
+                {{ element.credit | number: '1.2-6' }} BTC<br>
+                {{ element.credit | convert: rate | currency: 'USD' }}
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="balance">
+              <th mat-header-cell *matHeaderCellDef>
+                {{ 'ACCOUNT_STATEMENT_BALANCE' | translate }}
+              </th>
+              <td mat-cell *matCellDef="let element">
+                {{ element.balance | number: '1.2-6' }} BTC<br>
+                {{ element.balance | convert: rate | currency: 'USD' }}
+              </td>
+            </ng-container>
+        
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table>
+        </ng-container>
+        <ng-template #notResult>
+          {{ 'ACCOUNT_NOT_RESULT' | translate }}
+        </ng-template>
+        
+      </mat-card-content>
+    </mat-card>
+  </ng-template>
+</div>

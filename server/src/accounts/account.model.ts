@@ -2,34 +2,37 @@ import { Statement } from './statement.model';
 
 export interface Account {
   /**
-   * Account ID.
+   * Account ID
    */
-  id: number;
+  id?: number;
 
   /**
    * Account name.
    */
-  name: string;
+  name?: string;
 
   /**
    * Account category.
    */
-  category: string;
+  category?: string;
 
   /**
    * Account tags.
    */
-  tags: string;
+  tags?: string;
 
   /**
    * Account balance, in Bitcoins.
    */
-  balance: number;
+  balance?: number;
 
   /**
    * Account aviable balance, in Bitcoins.
    */
-  aviableBalance: number;
+  aviableBalance?: number;
 
+  /**
+   * Account statements.
+   */
   statements?: Statement[];
 }

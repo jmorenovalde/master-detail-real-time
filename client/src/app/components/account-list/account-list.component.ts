@@ -1,174 +1,129 @@
-import { Component, OnInit, OnDestroy, ViewChild, AfterViewInit } from '@angular/core';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatTableDataSource } from '@angular/material/table';
+import { trigger, state, style, transition, animate, keyframes } from '@angular/animations';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
-import { Account } from '../../models/account.model';
+import { AccountsService } from '../../http/accounts/accounts.service';
+
+import { AccountListDataSource } from './account-list-data-source';
+
+import { WebsocketService } from '../../shared/services/websocket/websocket.service';
 
 @Component({
   selector: 'jamv-account-list',
   templateUrl: './account-list.component.html',
-  styleUrls: ['./account-list.component.scss']
+  styleUrls: ['./account-list.component.scss'],
+  animations: [
+    trigger('aniRow', [
+      state('normal', style({
+         background: '#ffffff'
+      })),
+      state('upgrade',
+        style({
+          background: '#ffffff'
+        })
+      ),
+      state('downgrade', style({
+        background: '#ffffff'
+      })),
+      transition('* => upgrade', [
+        animate('500ms', keyframes([
+          style({ background: 'linear-gradient(to right, #00ff00, #ffffff)' }),
+          style({ backgroundColor: 'white' })
+        ]))
+      ]),
+      transition('upgrade => normal', animate('500ms ease-in')),
+      transition('* => downgrade', animate('500ms ease-out', keyframes([
+        style({ background: 'linear-gradient(to right, #ff0000, #ffffff)' }),
+        style({ backgroundColor: 'white' })
+      ]))),
+      transition('downgrade => normal', animate('500ms ease-in'))
+    ])
+  ]
 })
-export class AccountListComponent implements OnInit, OnDestroy, AfterViewInit {
+export class AccountListComponent implements OnInit, OnDestroy {
 
-  public rate = 9603.67;
-  public displayedColumns: string[] = [];
-  public dataSource = new MatTableDataSource(this.loadAccounts());
+  /**
+   * Variable to make the convert from bitcoin to dollar. The variable is provided by the WebSocketService
+   * with new-rate message.
+   */
+  public rate = 0;
 
-  private _unsubscribe$ = new Subject<boolean>();
+  /**
+   * State for the animations.
+   */
+  public state = 'normal';
 
-  @ViewChild(MatPaginator) paginator: MatPaginator;
+  /**
+   * The columns of the table.
+   */
+  public displayedColumns = this.loadHeaders();
 
-  constructor() { }
+  /**
+   * Content to show in the table.
+   */
+  public dataSource: AccountListDataSource;
 
+  /**
+   * @ignore The unsubscribe variable to safe of memory leaks.
+   */
+  private unsubscribe$ = new Subject<boolean>();
+
+  constructor(private accountsService: AccountsService,
+              private router: Router,
+              private websocketService: WebsocketService) { }
+
+  /**
+   * the init cycle hook.
+   */
   ngOnInit(): void {
-    this.displayedColumns = this.loadHeaders();
-    this.loadAccounts();
+    this.dataSource = new AccountListDataSource(this.accountsService);
+    this.dataSource.loadAccounts();
+    // Get exchange rate from socket
+    this.websocketService.listen('new-rate')
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe(
+        (message: unknown) => {
+          if (Number.parseFloat(message.toString())) {
+            const rateOld = this.rate;
+            this.rate = Number.parseFloat(message.toString());
+            if (rateOld > this.rate) {
+              this.state = 'downgrade';
+            } else if (rateOld < this.rate) {
+              this.state = 'upgrade';
+            } else {
+              this.state = 'normal';
+            }
+          }
+        }
+      );
   }
 
-  ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
-  }
-
+  /**
+   * Destoy cycle hook
+   */
   ngOnDestroy(): void {
     //  Destroy the Subscriptions to the services
-    this._unsubscribe$.next(true);
-    this._unsubscribe$.unsubscribe();
+    this.unsubscribe$.next(true);
+    this.unsubscribe$.unsubscribe();
   }
 
   /**
    * Method to generate the headers of the table
    */
   private loadHeaders(): string[] {
-    return ['name', 'cathegory', 'tags', 'balance', 'aviableBalance'];
+    return [
+        'name',
+        'cathegory',
+        'tags',
+        'balance',
+        'aviableBalance'
+      ];
   }
 
-  /**
-   * Method to load the accounts (mock-data)
-   */
-  private loadAccounts(): Account[] {
-    return [
-      {
-        id: 1,
-        name: 'Name 1',
-        category: 'Category 1',
-        tags: 'Tag1',
-        balance: 1,
-        aviableBalance: 0.5
-      },
-      {
-        id: 2,
-        name: 'Name 2',
-        category: 'Category 1',
-        tags: 'Tag1',
-        balance: 1,
-        aviableBalance: 0.5
-      },
-      {
-        id: 3,
-        name: 'Name 3',
-        category: 'Category 1',
-        tags: 'Tag1',
-        balance: 1.001,
-        aviableBalance: 0.7005
-      },
-      {
-        id: 4,
-        name: 'Name 4',
-        category: 'Category 3',
-        tags: 'Tag3',
-        balance: 1,
-        aviableBalance: 0.505
-      },
-      {
-        id: 5,
-        name: 'Name 5',
-        category: 'Category 1',
-        tags: 'Tag3',
-        balance: 1.2,
-        aviableBalance: 0.95
-      },
-      {
-        id: 6,
-        name: 'Name 6',
-        category: 'Category 2',
-        tags: 'Tag3',
-        balance: 1,
-        aviableBalance: 0.5
-      },
-      {
-        id: 7,
-        name: 'Name 7',
-        category: 'Category 1',
-        tags: 'Tag1',
-        balance: 1,
-        aviableBalance: 0.5
-      },
-      {
-        id: 8,
-        name: 'Name 8',
-        category: 'Category 1',
-        tags: 'Tag1',
-        balance: 0.8,
-        aviableBalance: 0.5
-      },
-      {
-        id: 9,
-        name: 'Name 9',
-        category: 'Category 2',
-        tags: 'Tag1',
-        balance: 1.1,
-        aviableBalance: 1
-      },
-      {
-        id: 10,
-        name: 'Name 10',
-        category: 'Category 1',
-        tags: 'Tag1',
-        balance: 0.002,
-        aviableBalance: 0.00005
-      },
-      {
-        id: 11,
-        name: 'Name 11',
-        category: 'Category 1',
-        tags: 'Tag1',
-        balance: 1.2,
-        aviableBalance: 0.5
-      },
-      {
-        id: 12,
-        name: 'Name 12',
-        category: 'Category 3',
-        tags: 'Tag2',
-        balance: 0.75,
-        aviableBalance: 0.5
-      },
-      {
-        id: 13,
-        name: 'Name 13',
-        category: 'Category 2',
-        tags: 'Tag1',
-        balance: 8,
-        aviableBalance: 2
-      },
-      {
-        id: 14,
-        name: 'Name 14',
-        category: 'Category 2',
-        tags: 'Tag3',
-        balance: 1,
-        aviableBalance: 0.5
-      },
-      {
-        id: 15,
-        name: 'Name 15',
-        category: 'Category 3',
-        tags: 'Tag1, Tag2',
-        balance: 2,
-        aviableBalance: 0.7
-      }
-    ];
+  public onClickRow(row) {
+    console.log(row);
+    this.router.navigate(['/accounts', row.id]);
   }
 }

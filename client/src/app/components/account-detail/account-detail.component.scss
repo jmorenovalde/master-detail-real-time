@@ -1,0 +1,41 @@
+.center {
+  display: flex;
+  align-items: left;
+  flex-direction: column;
+  margin-left: 2%;
+  margin-right: 2%;
+  margin-top: 25px;
+
+  a {
+    cursor: pointer;
+    text-decoration: none;
+  }
+}
+
+.account-name, .account-category, .balance, .aviable-balance {
+  margin: 0 16px;
+}
+
+.amount {
+  font-size: x-large;
+  color: green;
+  margin-top: 10px;
+  margin-bottom: 5px;
+}
+
+.aviable-balance {
+  padding-top: 10px;
+}
+
+.account-category {
+  font-size: small;
+}
+
+.note {
+  font-size: small;
+}
+
+table {
+  width: 100%;
+  margin-bottom: 25px;
+}

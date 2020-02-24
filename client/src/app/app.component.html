@@ -1,0 +1,15 @@
+<mat-toolbar>
+  {{ 'TITLE' | translate }}
+  <span class="toolbar-spacer"></span>
+  <img src="assets/images/bitcoin-brands.svg" width="20" [alt]=" 'BITCOIN_RATE' | translate">:
+  {{ rate$ | async | currency : 'USD' }}
+  <!-- {{ rate$ | async }} -->
+  <span class="toolbar-spacer"></span>
+  <div *ngIf="websocketService.isConnect; else notConnect">
+    <img src="assets/images/link-solid.svg" width="20" [alt]=" 'CONNECTED' | translate ">
+  </div>
+  <ng-template #notConnect>
+    <img src="assets/images/unlink-solid.svg" width="20" [alt]=" 'UNCONNECTED' | translate">
+  </ng-template>
+</mat-toolbar>
+<router-outlet></router-outlet>

@@ -1,0 +1,70 @@
+<div class="center">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>{{ 'ACCOUNTS' | translate }}</mat-card-title>
+      <mat-card-subtitle>
+        {{ 'HOME' | translate }} /
+        <strong>{{ 'ACCOUNTS' | translate }}</strong>
+      </mat-card-subtitle>
+    </mat-card-header>
+  </mat-card>
+  <br>
+  <div *ngIf="dataSource.loading$ | async; else tableAccounts">
+    <mat-card>
+      <mat-card-content class="spinner">
+        <mat-spinner></mat-spinner>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <ng-template #tableAccounts>
+    <table mat-table 
+        [dataSource]="dataSource"
+        class="mat-elevation-z8">
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef>
+          {{ 'ACCOUNT_NAME' | translate }}
+        </th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.name }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="cathegory">
+        <th mat-header-cell *matHeaderCellDef>
+          {{ 'ACCOUNT_CATEGORY' | translate }}
+        </th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.category }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="tags">
+        <th mat-header-cell *matHeaderCellDef>
+          {{ 'ACCOUNT_TAGS' | translate }}
+        </th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.tags }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="balance">
+        <th mat-header-cell *matHeaderCellDef>
+          {{ 'ACCOUNT_BALANCE' | translate }}
+        </th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.balance }} BTC<br>
+          {{ element.balance | convert: rate | currency: 'USD' }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="aviableBalance">
+        <th mat-header-cell *matHeaderCellDef>
+          {{ 'ACCOUNT_AVIABLE_BALANCE' | translate }}
+        </th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.aviableBalance }} BTC<br>
+          {{ element.aviableBalance | convert: rate | currency: 'USD' }}
+        </td>
+      </ng-container>
+  
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row (click)="onClickRow(row)" [@aniRow]="state" *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </ng-template>
+</div>

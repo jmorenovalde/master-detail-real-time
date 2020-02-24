@@ -7,14 +7,5 @@
       "^/ACCOUNT_SERVER": ""
     },
     "logLevel": "silent"
-  },
-  "/WS_ACCOUNT/*": {
-    "target": "http://localhost:3000",
-    "changeOrigin": true,
-    "secure": false,
-    "pathRewrite": {
-      "^/WS_ACCOUNT": ""
-    },
-    "logLevel": "silent"
   }
 }

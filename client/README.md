@@ -1,27 +1,58 @@
-# Client
+# Master-Detail Client
+
+This project is a example to leart the implementation of a Master-Detail.
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 9.0.1.
 
-## Development server
+## Configuration
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+To connect to the Backend Server you need configure a Inverse Proxy.
 
-## Code scaffolding
+`/ACCOUNT_SERVER` -> To your server
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+Unfortunately, I can't do the same with the websockets, that backend server was hardcoded.
 
-## Build
+## Run
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+First, you need to install the dependecies. Run the next script in a termal (terminal in Linux or macOS, or powershel in Window).
+```bash
+npm run install
+```
 
-## Running unit tests
+When ths instalation is finished the software is ready to run with the next script:
+```bash
+npm run start
+```
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+If you change the server default values (`localhost:3000`) you need to change the `proxy.conf.json` file. And in the `app.module.ts` you need change the socket.io configuration url:
 
-## Running end-to-end tests
+```typescript
+const config: SocketIoConfig = {
+  url: 'http://localhost:3000',
+  options: {}
+};
+```
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+## DEPLOY
+To deploy in a production client, you need install the dependences, as we see at [RUN](#run) section.
 
-## Further help
+To deploy run the next script:
+```bash
+npm run build
+```
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+When build finished, the client is located in `dist` folder.
+
+To run the "compilated" client move to the `dist` folder and run the next script:
+
+```bash
+node run main.js
+```
+
+## UNIT TESTS
+The unit tests are implemented in [Jasmine](https://jasmine.github.io/), who is the default testing suit of _Angular_.
+
+To run the test use the next script:
+```bash
+npm run test
+```

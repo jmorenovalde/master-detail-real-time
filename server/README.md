@@ -1,75 +1,55 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo_text.svg" width="320" alt="Nest Logo" /></a>
-</p>
+# Master-Detail Server
 
-[travis-image]: https://api.travis-ci.org/nestjs/nest.svg?branch=master
-[travis-url]: https://travis-ci.org/nestjs/nest
-[linux-image]: https://img.shields.io/travis/nestjs/nest/master.svg?label=linux
-[linux-url]: https://travis-ci.org/nestjs/nest
-  
-  <p align="center">A progressive <a href="http://nodejs.org" target="blank">Node.js</a> framework for building efficient and scalable server-side applications, heavily inspired by <a href="https://angular.io" target="blank">Angular</a>.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore"><img src="https://img.shields.io/npm/dm/@nestjs/core.svg" alt="NPM Downloads" /></a>
-<a href="https://travis-ci.org/nestjs/nest"><img src="https://api.travis-ci.org/nestjs/nest.svg?branch=master" alt="Travis" /></a>
-<a href="https://travis-ci.org/nestjs/nest"><img src="https://img.shields.io/travis/nestjs/nest/master.svg?label=linux" alt="Linux" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#5" alt="Coverage" /></a>
-<a href="https://gitter.im/nestjs/nestjs?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=body_badge"><img src="https://badges.gitter.im/nestjs/nestjs.svg" alt="Gitter" /></a>
-<a href="https://opencollective.com/nest#backer"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec"><img src="https://img.shields.io/badge/Donate-PayPal-dc3d53.svg"/></a>
-  <a href="https://twitter.com/nestframework"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+A simple server to implements a simple API REST and a simle Websocket Service.
 
-## Description
+This server is implemented by [NestJS](https://nestjs.com/).
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+To show the information of the API REST (and test it) you can access to the [swagger page](http://localhost:3000/api).
 
-## Installation
+Default Configuration:
+* _Port_: __3000__
+* _Swagger page_: `http://localhost:`__port__/__api__
+* _API REST Path_: __api/v1__
 
+## API RETS
+The API REST it implements in the 'api/v1' path. For this example only have to GET services. For more information show the swagger documentation.
+
+## WEBSOCKET
+The socket sends the exchange rate of the bitcoin to the dollar every 15 seconds. When the socket client connects, the browser sends to de client a `new-rate` message.
+
+The WebSocket server is implemented at `app.gateway.ts` file. To send the message every _15 seconds_, an interval (`@INTERVAL`) is implemented to do it. In this interval, a function is implemented to _simulate_ the changing of the value of the _exchange rate_. This function only returns only _three available values_, to increase the possibility to repeat the value exchange rate between intervals tick.
+
+## RUN
+First, you need to install the dependecies. Run the next script in a termal (terminal in Linux or macOS, or powershel in Window).
 ```bash
-$ npm install
+npm run install
 ```
 
-## Running the app
-
+When ths instalation is finished the software is ready to run with the next script:
 ```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+npm run start
 ```
 
-## Test
+## DEPLOY
+To deploy in a production server, you need install the dependences, as we see at [RUN](#run) section.
 
+To deploy run the next script:
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+npm run build
 ```
 
-## Support
+When build finished, the server is located in `dist` folder.
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+To run the "compilated" server move to the `dist` folder and run the next script:
 
-## Stay in touch
+```bash
+node run main.js
+```
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+## UNIT TESTS
+The unit tests are implemented in [JEST](https://jestjs.io/), who is the default testing suit of _NestJS_.
 
-## License
-
-  Nest is [MIT licensed](LICENSE).
+To run the test use the next script:
+```bash
+npm run test
+```

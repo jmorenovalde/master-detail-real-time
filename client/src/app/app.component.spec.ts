@@ -1,12 +1,47 @@
 import { TestBed, async } from '@angular/core/testing';
 import { AppComponent } from './app.component';
+import { TranslateModule, TranslateService, TranslateLoader } from '@ngx-translate/core';
+import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
+import { WebsocketService } from './shared/services/websocket/websocket.service';
+import { HttpClient } from '@angular/common/http';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { RouterModule } from '@angular/router';
+
+export function fakeTranslateLoader(http: HttpClient) {
+  return new TranslateHttpLoader(http);
+}
 
 describe('AppComponent', () => {
   beforeEach(async(() => {
+    const config: SocketIoConfig = {
+      url: 'http://localhost:3000',
+      options: {}
+    };
+
     TestBed.configureTestingModule({
       declarations: [
         AppComponent
       ],
+      imports: [
+        HttpClientTestingModule,
+        MatToolbarModule,
+        RouterModule,
+        SocketIoModule.forRoot(config),
+        TranslateModule.forRoot({
+          loader: {
+            provide: TranslateLoader,
+            useFactory: (fakeTranslateLoader),
+            deps: [HttpClient]
+          },
+          isolate: true
+        })
+      ],
+      providers: [
+        TranslateService,
+        WebsocketService
+      ]
     }).compileComponents();
   }));
 
@@ -14,18 +49,5 @@ describe('AppComponent', () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
     expect(app).toBeTruthy();
-  });
-
-  it(`should have as title 'client'`, () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app.title).toEqual('client');
-  });
-
-  it('should render title', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    fixture.detectChanges();
-    const compiled = fixture.nativeElement;
-    expect(compiled.querySelector('.content span').textContent).toContain('client app is running!');
   });
 });

@@ -17,10 +17,3 @@ The **Server** is develop in *NestJS*.
 In the `sever` folder, you should see the **NestJS Server**. To run the scripts of this project, you should move to the `server` folder.
 
 For more information read [README.md](./server/README.md).
-
-## Contact
-
-To contact with me:
-* Twitter: [@jmorenovalde](https://twitter.com/jmorenovalde)
-* LinkedIn: https://www.linkedin.com/in/juan-antonio-moreno-valderrama/
-* GitHub: https://github.com/jmorenovalde

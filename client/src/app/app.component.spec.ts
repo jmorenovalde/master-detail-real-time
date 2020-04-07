@@ -7,7 +7,7 @@ import { HttpClient } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { RouterModule } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
 
 export function fakeTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -27,7 +27,7 @@ describe('AppComponent', () => {
       imports: [
         HttpClientTestingModule,
         MatToolbarModule,
-        RouterModule,
+        RouterTestingModule,
         SocketIoModule.forRoot(config),
         TranslateModule.forRoot({
           loader: {

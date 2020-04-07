@@ -45,6 +45,7 @@ export class AccountsService {
     if (configuration) {
       this.configuration = configuration;
       this.basePath = basePath || configuration.basePath || this.basePath;
+      this.baseUrl = baseUrl || configuration.baseUrl || this.baseUrl;
     }
   }
 
@@ -58,9 +59,9 @@ export class AccountsService {
    * to returning the body.
    * @param reportProgress flag to report request and response progress.
    */
-  public getAccounts(observe?: 'body', reportProgress?: boolean): Observable<Account[]>;
-  public getAccounts(observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Account[]>>;
-  public getAccounts(observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Account[]>>;
+  public getAccounts(observe?: 'body', reportProgress?: boolean): Observable<Array<Account>>;
+  public getAccounts(observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Array<Account>>>;
+  public getAccounts(observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Array<Account>>>;
   public getAccounts(observe: any = 'body', reportProgress: boolean = false): Observable<any> {
     let headers = this.defaultHeaders;
     const httpHeaderAccepts: string[] = ['application/json'];

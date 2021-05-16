@@ -1,4 +1,4 @@
-import { TestBed, async } from '@angular/core/testing';
+import { TestBed, waitForAsync } from '@angular/core/testing';
 import { AppComponent } from './app.component';
 import { TranslateModule, TranslateService, TranslateLoader } from '@ngx-translate/core';
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
@@ -14,7 +14,7 @@ export function fakeTranslateLoader(http: HttpClient) {
 }
 
 describe('AppComponent', () => {
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     const config: SocketIoConfig = {
       url: 'http://localhost:3000',
       options: {}

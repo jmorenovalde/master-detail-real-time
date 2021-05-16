@@ -1,4 +1,4 @@
-import { TestBed, async, fakeAsync } from '@angular/core/testing';
+import { TestBed, fakeAsync, waitForAsync } from '@angular/core/testing';
 
 import { WebsocketService } from './websocket.service';
 
@@ -7,7 +7,7 @@ import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 xdescribe('WebsocketService', () => {
   let service: WebsocketService;
 
-  beforeEach( async (() => {
+  beforeEach( waitForAsync (() => {
     const config: SocketIoConfig = {
       url: 'http://localhost:3000',
       options: {}

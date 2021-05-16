@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableModule } from '@angular/material/table';
@@ -19,7 +19,7 @@ describe('AccountListComponent', () => {
   let fixture: ComponentFixture<AccountListComponent>;
   const routerSpy = { navigate: jasmine.createSpy('navigate') };
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     const config: SocketIoConfig = {
       url: 'http://localhost:3000',
       options: {}

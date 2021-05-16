@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { AccountDetailComponent } from './account-detail.component';
 import { WebsocketService } from '../../shared/services/websocket/websocket.service';
@@ -26,7 +26,7 @@ describe('AccountDetailComponent', () => {
 
   const routerSpy = { navigate: jasmine.createSpy('navigate') };
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     const config: SocketIoConfig = {
       url: 'http://localhost:3000',
       options: {}
